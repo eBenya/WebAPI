@@ -90,8 +90,15 @@ namespace WebAPI.Controllers
 
         // DELETE api/<TodoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(Guid id)
         {
+            var todo = TodoItems.Find(id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            TodoItems.Remove(id);
+            return new NoContentResult();
         }
     }
 }
