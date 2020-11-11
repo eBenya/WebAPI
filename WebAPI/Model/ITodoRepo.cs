@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Model
 {
-    interface ITodoRepo
+    public interface ITodoRepo
     {
         void Add(TodoItem item);
         IEnumerable<TodoItem> GetAll();
