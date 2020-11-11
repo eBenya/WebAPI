@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
             return TodoItems.GetAll();
         }
 
-        // GET api/<TodoController>/5
+        // GET api/<TodoController>/<Guid>
         [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetById(Guid id)
         {
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
             return CreatedAtRoute("GetTodo", new { id = value.Key }, value);
         }
 
-        // PUT api/<TodoController>/5
+        // PUT api/<TodoController>/<Guid>
         [HttpPut("{id}")]
         public IActionResult Put(Guid id, [FromBody] TodoItem value)
         {
@@ -63,6 +63,28 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
             TodoItems.Update(value);
+            return new NoContentResult();
+        }
+
+        //(part put) PATCH ap/<TodoController>
+        [HttpPatch("{id}")]
+        public IActionResult Patch([FromBody] TodoItem value, Guid id)
+        {
+            if(value == null)
+            {
+                return BadRequest();
+            }
+
+            TodoItem todo = TodoItems.Find(id);
+
+            if(todo == null)
+            {
+                return NotFound();
+            }
+
+            value.Key = todo.Key;
+            TodoItems.Update(value);
+
             return new NoContentResult();
         }
 
