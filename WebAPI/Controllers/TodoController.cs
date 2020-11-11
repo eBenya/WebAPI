@@ -40,8 +40,14 @@ namespace WebAPI.Controllers
 
         // POST api/<TodoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] TodoItem value)
         {
+            if (value==null)
+            {
+                return BadRequest();
+            }
+            TodoItems.Add(value);
+            return CreatedAtRoute("GetTodo", new { id = value.Key }, value);
         }
 
         // PUT api/<TodoController>/5
