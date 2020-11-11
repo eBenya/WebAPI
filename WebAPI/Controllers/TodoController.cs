@@ -27,10 +27,9 @@ namespace WebAPI.Controllers
 
         // GET api/<TodoController>/5
         [HttpGet("{id}", Name = "GetTodo")]
-        public IActionResult GetById(string id)
+        public IActionResult GetById(Guid id)
         {
-            Guid.TryParse(id, out Guid guid);
-            var item = TodoItems.Find(guid);
+            var item = TodoItems.Find(id);
             if (item == null)
             {
                 return NotFound();
@@ -52,8 +51,19 @@ namespace WebAPI.Controllers
 
         // PUT api/<TodoController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(Guid id, [FromBody] TodoItem value)
         {
+            if (value == null || value.Key != id)
+            {
+                return BadRequest();
+            }
+            TodoItem todo = TodoItems.Find(id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            TodoItems.Update(value);
+            return new NoContentResult();
         }
 
         // DELETE api/<TodoController>/5
