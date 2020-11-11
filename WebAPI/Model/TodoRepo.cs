@@ -8,7 +8,8 @@ namespace WebAPI.Model
 {
     public class TodoRepo : ITodoRepo
     {
-        private static ConcurrentDictionary<Guid, TodoItem> todos = new ConcurrentDictionary<string, TodoItem>();
+        private static ConcurrentDictionary<Guid, TodoItem> todos = 
+            new ConcurrentDictionary<Guid, TodoItem>();
         public TodoRepo()
         {
             Add(new TodoItem { Name = "KEK" });
